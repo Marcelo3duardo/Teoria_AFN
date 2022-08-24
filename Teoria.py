@@ -50,6 +50,7 @@ def organizarArray(nomeArquivo):
             strLista[i][j][k] = strLista[i][j][k].split(',')
             print(strLista[i][0],' & ',strLista[i][j][0],' -> ',strLista[i][j][k], '\n')
             #       Estado Qx leu 'a' -> {Qy,Qz}
+            #git
             
                 
                 
