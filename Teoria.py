@@ -65,7 +65,7 @@ def organizarArray(nomeArquivo):
     
     # testando Computação vazia
     
-    VetorDoEstado = 0
+    VetorDoEstado = 2 # testando
     ExecVazio(VetorDoEstado,strLista)
     
     
