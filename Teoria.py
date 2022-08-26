@@ -60,52 +60,62 @@ def organizarArray(nomeArquivo):
     for i in range(0, len(strLista)):
         print(strLista[i][0])
     #selecionando estados finais
-    estadosFinais =  input('escolha os estados finais [qx,qy]: \n').split(',')
-    print(estadosFinais)
+    #       estadosFinais =  input('escolha os estados finais [qx,qy]: \n').split(',')
+    #       print(estadosFinais)
     
     # testando Computação vazia
-    # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ tem que adicionar logo o estado qu esta se lendo 
-    vazioVai =  ProcurarTransicaoVazias(0,strLista)
-    print('vetor 001  - ',vazioVai)
-    vazioVai = PercorrerVazios(vazioVai,strLista) + vazioVai
-    print('\n \n')
-    print('vetor fina :  ',vazioVai)
-   
+    
+    VetorDoEstado = 0
+    ExecVazio(VetorDoEstado,strLista)
+    
+    
+    
                     
     return strLista  # retorna a lista em formato de inteiros
+
+def ExecVazio(VetorDoEstado,strLista):
+    vazioVai =  ProcurarTransicaoVazias(VetorDoEstado,strLista)
+    #print('vetor 001  - ',vazioVai)
+    vazioVai = PercorrerVazios(vazioVai,strLista) + vazioVai
+    #print('\n \n')
+    vazioVai.append([strLista[VetorDoEstado][0]]) # adicionando o nó da raiz
+    print('vetor fina retorna do vazio:  ',vazioVai)
+    return vazioVai
 
 def ProcurarTransicaoVazias(posEstado,strLista): #recebe a posição do estado
       # testando Computação vazia
     vazioProxEstados = []
     
     for vazia in range (1,len(strLista[posEstado])):
-        print('procurando ',strLista[posEstado][0])
+        #print('procurando ',strLista[posEstado][0])
         if strLista[posEstado][vazia][0] == '$': # se for o movimento vazio ele adiciona 
-            print('ptv  - >',strLista[posEstado][vazia][0])
-            vazioProxEstados.append(strLista[posEstado][vazia][1])
             
-            # !!!! tem que adicionar eh a posição 
-            print('ptv 2 - ',vazioProxEstados) #adicionou
+            vazioProxEstados.append(strLista[posEstado][vazia][1])   
+    
     
     return vazioProxEstados # retorna a lista com os estados que esse vazio aponta
     
 
 def PercorrerVazios(listaEstados,strLista): #lista possui o nome do próprio Estado
     proxEstados = []
-    entrou = 0
+    seEntrouAux = proxEstados.copy()
+
+    #print('tamanho da lista passada para percorrer o vazio => ',len(listaEstados))
     for aux in range(0,len(listaEstados)):
         for numEstados in range(0,len(strLista)):
-            print(listaEstados[aux], ' == ', strLista[numEstados][0])
+            #print('vetor => ',aux,'  ',listaEstados[aux][0], ' == ', strLista[numEstados][0])
             if listaEstados[aux][0] == strLista[numEstados][0]:
                 #procurar pela transição vazia
-                if ProcurarTransicaoVazias(numEstados,strLista) != []:
-                    entrou = 1
-                proxEstados.append(ProcurarTransicaoVazias(numEstados,strLista))  
+                #proxEstados.append(ProcurarTransicaoVazias(numEstados,strLista))
+                proxEstados += ProcurarTransicaoVazias(numEstados,strLista)
+                #print('Dentro do if ------->',numEstados)
                 
                 #proxEstados.append(vazioAponta)
-    
-    if entrou == '1':
-        PercorrerVazios(proxEstados,strLista)
+    #print('tam. ant ',seEntrouAux, ' != ', 'tam desp. ',(proxEstados))
+    if len(seEntrouAux) != len(proxEstados) :
+        #print('lista da segunda entrada =>>> ',proxEstados)
+        #PercorrerVazios(proxEstados,strLista)
+        proxEstados += PercorrerVazios(proxEstados,strLista)
     return proxEstados
         
         
